@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "net.muliba.eyeopener"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'org.jetbrains.anko:anko-common:0.10.2'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // Lifecycle
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "android.arch.lifecycle:runtime:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    // Room (use 1.1.0-beta2 for latest beta)
+    implementation "android.arch.persistence.room:runtime:1.1.0-beta1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.0-beta1"
+    kapt "android.arch.persistence.room:compiler:1.1.0-beta1"
+
+
+
+    //引入okhttp
+    implementation 'com.squareup.okhttp3:okhttp:3.8.0'
+    //引入retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    //引入json转换器，方便将返回的数据转换为json格式
+    implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
+    //引入rxjava适配器，方便rxjava与retrofit的结合
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+//    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    //引入rxjava
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.4'
+    //引入rxandroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    //glide
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+
+    //test
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
