@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import net.muliba.eyeopener.R
 import net.muliba.eyeopener.repository.room.entity.RoomHomeItem
+import net.muliba.eyeopener.ui.vo.VideoVO
 import net.muliba.eyeopener.util.ImageLoadUtils
 
 /**
@@ -24,6 +25,7 @@ class HomeDailyListAdapter(context: Context) : RecyclerView.Adapter<HomeDailyLis
     private var itemList: MutableList<RoomHomeItem>? = null
     private val inflater = LayoutInflater.from(context)
     private val mContext: Context = context
+    var homeDailyItemClickListener: HomeDailyItemClickListener? = null
 
     fun setList(list: MutableList<RoomHomeItem>) {
         if (itemList == null) {
@@ -67,35 +69,49 @@ class HomeDailyListAdapter(context: Context) : RecyclerView.Adapter<HomeDailyLis
 
     override fun onBindViewHolder(holder: HomeDailyListViewHolder?, position: Int) {
         val bean = itemList?.get(position)
-        val title = bean?.data?.title ?: ""
-        val category = bean?.data?.category ?: ""
-        val minute = bean?.data?.duration?.div(60)
-        val second = bean?.data?.duration?.minus((minute?.times(60)) as Long)
-        val realMinute: String
-        val realSecond: String
-        realMinute = if (minute!! < 10) {
-            "0$minute"
-        } else {
-            minute.toString()
+        if (bean != null) {
+            val title = bean.data?.title ?: ""
+            val category = bean.data?.category ?: ""
+            val minute = bean.data?.duration?.div(60)
+            val second = bean.data?.duration?.minus((minute?.times(60)) as Long)
+            val realMinute: String
+            val realSecond: String
+            realMinute = if (minute!! < 10) {
+                "0$minute"
+            } else {
+                minute.toString()
+            }
+            realSecond = if (second!! < 10) {
+                "0$second"
+            } else {
+                second.toString()
+            }
+            holder?.tv_title?.text = title
+            holder?.tv_detail?.text = "发布于 $category / $realMinute:$realSecond"
+            val author = bean.data?.author
+            if (author != null && !TextUtils.isEmpty(author.icon)) {
+                ImageLoadUtils.display(mContext, holder?.iv_user, author.icon)
+            } else {
+                holder?.iv_user?.visibility = View.GONE
+            }
+            val photo = bean.data?.cover?.feed
+            if (photo != null) {
+                ImageLoadUtils.display(mContext, holder?.iv_photo, photo)
+            }
+
+            //click
+            holder?.itemView?.setOnClickListener {
+                val desc = bean.data?.description
+                val duration = bean.data?.duration
+                val playUrl = bean.data?.playUrl
+                val blurred = bean.data?.cover?.blurred
+                val collect = bean.data?.consumption?.collectionCount
+                val share = bean.data?.consumption?.shareCount
+                val reply = bean.data?.consumption?.replyCount
+                val vo = VideoVO(photo, title, desc, duration, playUrl, category, blurred, collect, share, reply)
+                homeDailyItemClickListener?.click(vo)
+            }
         }
-        realSecond = if (second!! < 10) {
-            "0$second"
-        } else {
-            second.toString()
-        }
-        holder?.tv_title?.text = title
-        holder?.tv_detail?.text = "发布于 $category / $realMinute:$realSecond"
-        val author = bean.data?.author
-        if (author != null && !TextUtils.isEmpty(author.icon)) {
-            ImageLoadUtils.display(mContext, holder?.iv_user, author.icon)
-        } else {
-            holder?.iv_user?.visibility = View.GONE
-        }
-        val photo = bean.data?.cover?.feed
-        if (photo != null) {
-            ImageLoadUtils.display(mContext, holder?.iv_photo, photo)
-        }
-        //todo click
     }
 
     class HomeDailyListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -110,5 +126,9 @@ class HomeDailyListAdapter(context: Context) : RecyclerView.Adapter<HomeDailyLis
             iv_photo = itemView?.findViewById(R.id.iv_photo) as ImageView?
             iv_user = itemView?.findViewById(R.id.iv_user) as ImageView?
         }
+    }
+
+    interface HomeDailyItemClickListener {
+        fun click(vo : VideoVO)
     }
 }

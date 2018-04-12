@@ -11,9 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_home.*
 import net.muliba.accounting.utils.ext.DateHelper
+import net.muliba.accounting.utils.ext.go
 import net.muliba.eyeopener.R
 import net.muliba.eyeopener.adapter.HomeDailyListAdapter
 import net.muliba.eyeopener.repository.room.entity.RoomHomeItem
+import net.muliba.eyeopener.ui.activity.VideoDetailActivity
+import net.muliba.eyeopener.ui.vo.VideoVO
 import net.muliba.eyeopener.viewmodel.HomeViewModel
 
 /**
@@ -49,5 +52,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recycler_home_daily.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recycler_home_daily.adapter = adapter
+        adapter.homeDailyItemClickListener = object : HomeDailyListAdapter.HomeDailyItemClickListener {
+            override fun click(vo: VideoVO) {
+                activity.go<VideoDetailActivity>(VideoDetailActivity.startVideoDetail(vo))
+            }
+        }
     }
 }
