@@ -3,6 +3,7 @@ package net.muliba.eyeopener.repository.api
 
 import io.reactivex.Observable
 import net.muliba.eyeopener.repository.api.bean.HomeBean
+import net.muliba.eyeopener.repository.api.bean.SearchBean
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -45,7 +46,7 @@ interface ApiService{
 //    fun getFindDetailMoreData(@Query("start") start :Int,@Query("num") num :Int,
 //                              @Query("categoryName") categoryName :String,@Query("strategy") strategy :String) : Observable<HotBean>
 //    //获取关键词搜索相关信息
-//    @GET("v1/search")
-//    fun getSearchData(@Query("num") num :Int,@Query("query") query :String,
-//                              @Query("start") start :Int) : Observable<HotBean>
+    @GET("v1/search")
+    fun getSearchData(@Query("num") num :Int,@Query("query") query :String,
+                              @Query("start") start :Int) : Observable<SearchBean>
 }

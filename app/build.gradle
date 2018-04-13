@@ -42,6 +42,9 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.1.0-beta1"
     kapt "android.arch.persistence.room:compiler:1.1.0-beta1"
 
+    //statusbar
+    implementation 'com.gyf.barlibrary:barlibrary:2.2.5'
+
     //引入okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.8.0'
     //引入retrofit
@@ -60,6 +63,9 @@ dependencies {
 
     //视频播放
     implementation 'com.shuyu:GSYVideoPlayer:4.1.1'
+
+    //flexbox
+    implementation 'com.google.android:flexbox:0.3.2'
 
     //test
     testImplementation 'junit:junit:4.12'

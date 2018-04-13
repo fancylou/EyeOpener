@@ -14,6 +14,7 @@ fun Date.format(pattern: String): String {
 
 object DateHelper {
     val sdf_string = "yyyy-MM-dd"
+    val md_string = "MM-dd"
     val default_string = "yyyy-MM-dd HH:mm:ss"
 
     fun convertStringToDate(time: String, format: String): Date {
